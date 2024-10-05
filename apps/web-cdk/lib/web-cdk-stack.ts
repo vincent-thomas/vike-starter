@@ -11,24 +11,27 @@ import {
   AllowedMethods,
   CachePolicy,
   Distribution,
+  OriginAccessIdentity,
 } from "aws-cdk-lib/aws-cloudfront";
-import { BlockPublicAccess, Bucket } from "aws-cdk-lib/aws-s3";
+import { Bucket } from "aws-cdk-lib/aws-s3";
 import {
   FunctionUrlOrigin,
   S3Origin,
 } from "aws-cdk-lib/aws-cloudfront-origins";
 import { BucketDeployment, Source } from "aws-cdk-lib/aws-s3-deployment";
+import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
+
+interface DocsProps extends cdk.StackProps {
+  certArn: string;
+}
 
 export class WebStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, { certArn, ...props }: DocsProps) {
     super(scope, id, props);
 
     const bucket = new Bucket(this, "assets-bucket", {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
-      publicReadAccess: true,
-
-      blockPublicAccess: BlockPublicAccess.BLOCK_ACLS,
     });
 
     const lambda = new Lambda(this, "lambda-runtime", {
@@ -47,6 +50,12 @@ export class WebStack extends cdk.Stack {
       authType: FunctionUrlAuthType.NONE,
     });
 
+    const cloudfrontOAI = new OriginAccessIdentity(this, "OAI");
+
+    bucket.grantRead(cloudfrontOAI);
+
+    const cert = Certificate.fromCertificateArn(this, "cert-arn", certArn);
+
     const distru = new Distribution(this, "distro", {
       defaultBehavior: {
         origin: new FunctionUrlOrigin(lambdaUrl, {}),
@@ -54,9 +63,14 @@ export class WebStack extends cdk.Stack {
         allowedMethods: AllowedMethods.ALLOW_ALL,
         cachePolicy: CachePolicy.CACHING_DISABLED,
       },
+
+      certificate: cert,
+      domainNames: ["vike-starter.v-thomas.com"],
       additionalBehaviors: {
         "/assets/*": {
-          origin: new S3Origin(bucket),
+          origin: new S3Origin(bucket, {
+            originAccessIdentity: cloudfrontOAI,
+          }),
           allowedMethods: AllowedMethods.ALLOW_GET_HEAD,
           cachePolicy: CachePolicy.CACHING_OPTIMIZED,
         },
