@@ -8,7 +8,7 @@
     "server-cdk": "bin/server-cdk.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "esbuild ./bin/server-cdk.ts --bundle --minify --platform=node --outdir=dist",
     "watch": "tsc -w",
     "test": "jest",
     "cdk:deploy": "dotenv -- cdk deploy",
