@@ -30,7 +30,11 @@ export function createVersionInstancer(
 	});
 
 	hono.get("/openapi", () => {
-		return new Response(JSON.stringify(openApiDocument, undefined, 2));
+		return new Response(JSON.stringify(openApiDocument), {
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
 	});
 
 	return hono;

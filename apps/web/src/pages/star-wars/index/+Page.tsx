@@ -4,9 +4,9 @@ import { useData } from "../../../../renderer/useData";
 import type { Data } from "./+data";
 
 function Page() {
-	const { movies, test } = useData<Data>();
+	const { movies } = useData<Data>();
 
-	console.log(movies, test);
+	console.log(movies);
 	return (
 		<>
 			<h1>Star Wars Movies</h1>
@@ -27,7 +27,6 @@ function Page() {
 			<p>
 				Data can be fetched by using the <code>data()</code> hook.
 			</p>
-			<p>test: {JSON.stringify(test, undefined, 2)}</p>
 		</>
 	);
 }

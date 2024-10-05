@@ -7,7 +7,7 @@ const app = new Hono();
 const MODE = process.env.NODE_ENV;
 
 if (MODE !== "production") {
-	app.use(prettyJSON());
+  app.use(prettyJSON());
 }
 
 app.route("/v1", v1Instance);

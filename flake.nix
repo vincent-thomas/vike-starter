@@ -46,13 +46,9 @@
               nodejs_22
               biome
 
-              pre-commit
-
+              nodePackages.aws-cdk
             ];
 
-            shellHook = ''
-              ${pkgs.husky}/bin/husky
-            '';
           };
         }
       );

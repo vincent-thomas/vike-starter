@@ -6,13 +6,10 @@ import type { UserConfig } from "vite";
 import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
 
 const config: UserConfig = {
-	//optimizeDeps: {
-	//	exclude: ["argon2-browser"],
-	//},
 	plugins: [
 		react(),
 		devServer({
-			entry: "./server/entries/dev.ts",
+			entry: "./server/entries/index.ts",
 			exclude: [
 				/^\/@.+$/,
 				/.*\.(ts|tsx|vue)($|\?)/,
@@ -25,7 +22,7 @@ const config: UserConfig = {
 			// Vike already does this
 			injectClientScript: false,
 		}),
-		vike(),
+		vike({}),
 		vanillaExtractPlugin(),
 	],
 };

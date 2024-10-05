@@ -10,6 +10,11 @@
     "lint": {
       "cache": true,
       "inputs": ["{projectRoot}/**/*.ts"]
+    },
+
+    "cdk:deploy": {
+      "cache": false,
+      "dependsOn": ["^build"]
     }
   },
   "defaultBase": "main"

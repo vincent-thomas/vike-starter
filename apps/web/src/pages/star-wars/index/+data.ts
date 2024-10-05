@@ -8,8 +8,6 @@ import fetch from "node-fetch";
 import type { PageContextServer } from "vike/types";
 import type { Movie, MovieDetails } from "../types";
 
-import { trpc } from "@web/server";
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const data = async (pageContext: PageContextServer) => {
 	await sleep(700); // Simulate slow network
@@ -18,14 +16,6 @@ const data = async (pageContext: PageContextServer) => {
 		"https://brillout.github.io/star-wars/api/films.json",
 	);
 	const moviesData = (await response.json()) as MovieDetails[];
-
-	try {
-		const test = await trpc.test.query();
-		//
-		console.table({ test });
-	} catch (e) {
-		console.log(e);
-	}
 
 	// We remove data we don't need because the data is passed to the client; we should
 	// minimize what is sent over the network.

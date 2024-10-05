@@ -6,3 +6,7 @@ dist/
 .nx/cache
 .nx/workspace-data
 .direnv
+cdk.out
+
+**/.vitepress/cache
+**/.env

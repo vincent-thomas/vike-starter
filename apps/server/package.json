@@ -1,7 +1,11 @@
 {
   "name": "@web/server",
+  "type": "module",
   "scripts": {
-    "dev": "bun run --hot --port 4000 ./entries/dev.ts"
+    "dev": "bun run --hot --port 4000 ./entries/dev.ts",
+    "build": "bun build ./entries/lambda.ts --target node --outdir dist --bundle && mv ./dist/lambda.js ./dist/lambda.mjs",
+    "lint": "biome ci ./**/*.ts"
+
   },
   "dependencies": {
     "@ts-rest/open-api": "^3.51.0",

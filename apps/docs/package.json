@@ -1,0 +1,11 @@
+{
+  "name": "@web/docs",
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build"
+  },
+  "devDependencies": {
+    "vitepress": "^1.3.4"
+  }
+}
